@@ -5,6 +5,7 @@
  grails.config.locations = [ "classpath:${appName}-config.properties",
                              "classpath:${appName}-config.groovy",
                              "file:${userHome}/.grails/${appName}-config.properties",
+                             "file:/grails-data/${appName}-config.properties",
                              "file:${userHome}/.grails/${appName}-config.groovy"]
 
 // if (System.properties["${appName}.config.location"]) {
