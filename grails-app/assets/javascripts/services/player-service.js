@@ -37,7 +37,11 @@ streamaApp.factory('playerService', [
         videoData = video;
         videoOptions.videoSrc = $sce.trustAsResourceUrl(video.files[0].src);
         videoOptions.videoType = video.files[0].contentType;
-        videoOptions.videoTrack = $sce.trustAsResourceUrl(video.subtitles[0].src);
+
+        if(video.subtitles && video.subtitles.length){
+          videoOptions.videoTrack = $sce.trustAsResourceUrl(video.subtitles[0].src);
+        }
+
         videoOptions.videoMetaTitle = (video.show ? video.show.name : video.title);
         videoOptions.videoMetaSubtitle = (video.show ? video.episodeString + ' - ' + video.name : video.release_date.substring(0, 4));
         videoOptions.videoMetaDescription = video.overview;

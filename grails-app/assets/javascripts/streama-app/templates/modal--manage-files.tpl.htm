@@ -5,7 +5,7 @@
 
   <button ng-model="file"  class="btn btn-dropzone btn-block btn-lg"
           ngf-drop ngf-drag-over-class="dragover-upload" ngf-change="upload($files)" ngf-select>
-    Drop File or Click to Choose <span ng-show="uploadStatus.percentage">{{uploadStatus.percentage}}%</span>
+    Drop File or Click to Choose <span ng-show="uploadStatus.percentage != null">{{uploadStatus.percentage}}%</span>
   </button>
 
   <br/><br/>
@@ -13,7 +13,7 @@
     <table class="table table-striped" style="font-size: 14px;" ng-show="video.files.length">
       <thead>
       <tr>
-        <th>Name</th>
+        <th>Name </th>
         <th>Type</th>
         <th style="width: 100px;"></th>
       </tr>
