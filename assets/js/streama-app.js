@@ -1,7 +1,7 @@
 'use strict';
 
 var streamaApp = angular.module('streamaApp', [
-	'ui.router', 'ui.bootstrap', 'ngFileUpload', 'ui.slider', 'LocalStorageModule'
+	'ui.router', 'ui.bootstrap', 'ngFileUpload', 'ui.slider', 'LocalStorageModule', 'compareField', 'ngResource'
 ]);
 
 
@@ -9,9 +9,24 @@ var streamaApp = angular.module('streamaApp', [
 streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
 	$stateProvider
-		.state('dash', {
+		.state('login', {
 			url: '/',
-			templateUrl: 'assets/templates/dash.html',
+			template: JST['assets/templates/login.html'],
+			controller: 'loginCtrl',
+			//resolve: {
+			//	currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
+			//		return apiService.currentUser().success(function (data) {
+			//			if (data) {
+			//				$rootScope.currentUser = data;
+			//				return data;
+			//			}
+			//		});
+			//	}]
+			//}
+		})
+		.state('dash', {
+			url: '/dash',
+			template: JST['assets/templates/dash.html'],
 			controller: 'dashCtrl',
 			//resolve: {
 			//	currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
@@ -26,7 +41,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('profile', {
 			url: '/profile',
-			templateUrl: 'assets/templates/profile.html',
+			template: JST['assets/templates/profile.html'],
 			controller: 'profileCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
@@ -41,7 +56,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('player', {
 			url: '/player/:videoId?currentTime?sessionId',
-			templateUrl: 'assets/templates/player.html',
+			template: JST['assets/templates/player.html'],
 			controller: 'playerCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
@@ -56,7 +71,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('admin', {
 			url: '/admin',
-			templateUrl: 'assets/templates/admin.html',
+			template: JST['assets/templates/admin.html'],
 			controller: 'adminCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
@@ -73,17 +88,17 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('admin.movies', {
 			url: '/movies',
-			templateUrl: 'assets/templates/admin-movies.html',
+			template: JST['assets/templates/admin-movies.html'],
 			controller: 'adminMoviesCtrl'
 		})
 		.state('admin.movie', {
 			url: '/movie/:movieId',
-			templateUrl: 'assets/templates/admin-movie.html',
+			template: JST['assets/templates/admin-movie.html'],
 			controller: 'adminMovieCtrl'
 		})
 		.state('admin.users', {
 			url: '/users',
-			templateUrl: 'assets/templates/admin-users.html',
+			template: JST['assets/templates/admin-users.html'],
 			controller: 'adminUsersCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
@@ -100,7 +115,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('admin.settings', {
 			url: '/settings',
-			templateUrl: 'assets/templates/admin-settings.html',
+			template: JST['assets/templates/admin-settings.html'],
 			controller: 'adminSettingsCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
@@ -117,12 +132,12 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		})
 		.state('admin.shows', {
 			url: '/shows',
-			templateUrl: 'assets/templates/admin-shows.html',
+			template: JST['assets/templates/admin-shows.html'],
 			controller: 'adminShowsCtrl'
 		})
 		.state('admin.show', {
 			url: '/show/:showId',
-			templateUrl: 'assets/templates/admin-show.html',
+			template: JST['assets/templates/admin-show.html'],
 			controller: 'adminShowCtrl'
 		});
 

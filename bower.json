@@ -26,6 +26,8 @@
     "angular-sanitize": "~1.4.3",
     "ng-file-upload": "~5.0.9",
     "mousetrap": "~1.5.3",
-    "Autolinker.js": "~0.18.1"
+    "Autolinker.js": "~0.18.1",
+    "angularjs-compare-to-directive": "*",
+    "angular-resource": "~1.4.3"
   }
 }
