@@ -12,32 +12,24 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 		.state('login', {
 			url: '/',
 			template: JST['assets/templates/login.html'],
-			controller: 'loginCtrl',
-			//resolve: {
-			//	currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
-			//		return apiService.currentUser().success(function (data) {
-			//			if (data) {
-			//				$rootScope.currentUser = data;
-			//				return data;
-			//			}
-			//		});
-			//	}]
-			//}
+			controller: 'loginCtrl'
 		})
 		.state('dash', {
 			url: '/dash',
 			template: JST['assets/templates/dash.html'],
 			controller: 'dashCtrl',
-			//resolve: {
-			//	currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
-			//		return apiService.currentUser().success(function (data) {
-			//			if (data) {
-			//				$rootScope.currentUser = data;
-			//				return data;
-			//			}
-			//		});
-			//	}]
-			//}
+			resolve: {
+				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
+					return apiService.session.currentUser().success(function (data) {
+						if (data) {
+							$rootScope.currentUser = data;
+							return data;
+						}else{
+							$state.go('login');
+						}
+					});
+				}]
+			}
 		})
 		.state('profile', {
 			url: '/profile',
@@ -45,7 +37,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			controller: 'profileCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
-					return apiService.currentUser().success(function (data) {
+					return apiService.session.currentUser().success(function (data) {
 						if (data) {
 							$rootScope.currentUser = data;
 							return data;
@@ -60,7 +52,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			controller: 'playerCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
-					return apiService.currentUser().success(function (data) {
+					return apiService.session.currentUser().success(function (data) {
 						if (data) {
 							$rootScope.currentUser = data;
 							return data;
@@ -75,7 +67,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			controller: 'adminCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
-					return apiService.currentUser().success(function (data) {
+					return apiService.session.currentUser().success(function (data) {
 						if (data && data.authorities.length) {
 							$rootScope.currentUser = data;
 							return data;
@@ -102,7 +94,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			controller: 'adminUsersCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
-					return apiService.currentUser().success(function (data) {
+					return apiService.session.currentUser().success(function (data) {
 						if (data && data.isAdmin) {
 							$rootScope.currentUser = data;
 							return data;
@@ -119,7 +111,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			controller: 'adminSettingsCtrl',
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
-					return apiService.currentUser().success(function (data) {
+					return apiService.session.currentUser().success(function (data) {
 						if (data.isAdmin) {
 							$rootScope.currentUser = data;
 							return data;
@@ -178,15 +170,22 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 	}]);
 
 
-streamaApp.run(['$rootScope', '$state', 'localStorageService', function ($rootScope, $state, localStorageService) {
+streamaApp.run(['$rootScope', '$state', 'apiService', function ($rootScope, $state, apiService) {
 	$rootScope.baseData = {};
 	$rootScope.isCurrentState = function (stateName) {
 		return ($state.current.name == stateName);
 	};
 
-	$rootScope.$on('$stateChangeSuccess', function (e, toState) {
-		if(toState.name == "player"){
-			localStorageService.set('originUrl', location.href);
-		}
-	});
+	$rootScope.logout = function () {
+		apiService.session.logout().success(function () {
+			$rootScope.currentUser = null;
+			$state.go('login');
+		});
+	};
+
+	//$rootScope.$on('$stateChangeSuccess', function (e, toState) {
+	//	if(toState.name == "player"){
+	//		localStorageService.set('originUrl', location.href);
+	//	}
+	//});
 }]);

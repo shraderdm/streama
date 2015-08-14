@@ -29,7 +29,7 @@ module.exports = {
     enabled: {
       type: 'boolean',
       required: true,
-      defaultsto: false
+      defaultsTo: false
     },
     uuid: {
       type: 'string'
@@ -37,7 +37,7 @@ module.exports = {
     invitationSent: {
       type: 'boolean',
       required: true,
-      defaultsto: false,
+      defaultsTo: false,
       columnName: 'invitation_sent'
     },
     favoriteGenres: {

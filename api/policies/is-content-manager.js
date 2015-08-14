@@ -1,5 +1,5 @@
 /**
- * sessionAuth
+ * isContentManager
  *
  * @module      :: Policy
  * @description :: Simple policy to allow any authenticated user
@@ -7,13 +7,11 @@
  * @docs        :: http://sailsjs.org/#!/documentation/concepts/Policies
  *
  */
-module.exports = function sessionAuth(req, res, next) {
+module.exports = function isContentManager(req, res, next) {
 
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
-  console.log(req.session);
-
-  if (req.session.authenticated) {
+  if (req.session.authenticated && req.session.User && req.session.User.roles) {
     return next();
   }
 

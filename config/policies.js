@@ -26,7 +26,35 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': true,
+
+  session: {'*': true},
+
+  viewingStatus: {'*': "sessionAuth"},
+  file: {'*': "sessionAuth"},
+
+  tvShow: {
+    episodesForTvShow: "sessionAuth",
+    '*': "is-content-manager"
+  },
+  video: {
+    dash: "sessionAuth",
+    show: "sessionAuth",
+    '*': "is-content-manager"
+  },
+  theMovieDb: {
+    availableGenres: "sessionAuth",
+    '*': "is-content-manager"
+  },
+  movie: {'*': "is-content-manager"},
+  episode: {'*': "is-content-manager"},
+
+
+  user: {
+    save: true,
+    '*': "is-admin"
+  },
+  settings: {'*': "is-admin"}
 
   /***************************************************************************
   *                                                                          *

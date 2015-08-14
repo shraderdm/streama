@@ -19,7 +19,7 @@ module.exports = {
 			email: req.param('email')
 		}, function foundUser(err, user) {
 			if (err) return res.negotiate(err);
-			if (!user) return res.notFound();
+			if (!user) return res.send(404, 'A User with that Email does not exist.');
 
 			// Compare password attempt from the form params to the encrypted password
 			// from the database (`user.password`)
@@ -41,10 +41,11 @@ module.exports = {
 				success: function (){
 
 					// Store user id in the user session
-					req.session.me = user.id;
+					req.session.authenticated = true;
+					req.session.User = user;
 
 					// All done- let the client know that everything worked.
-					return res.ok();
+					return res.send(user);
 				}
 			});
 		});
@@ -134,7 +135,7 @@ module.exports = {
 
 
 	currentUser: function (req, res) {
-		return res.json(req.session.User);
+		res.send(req.session.User);
 	}
 };
 

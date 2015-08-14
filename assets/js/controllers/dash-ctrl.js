@@ -30,6 +30,7 @@ streamaApp.controller('dashCtrl', ['$scope', 'apiService', '$state', '$rootScope
 
   apiService.video.dash()
     .success(function (data) {
+      console.log('%c success', 'color: deeppink; font-weight: bold; text-shadow: 0 0 5px deeppink;', arguments);
       $scope.episodes = data.firstEpisodes;
       $scope.continueWatching = data.continueWatching;
       $scope.movies = data.movies;

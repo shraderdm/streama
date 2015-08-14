@@ -16,6 +16,22 @@
 	</head>
 	<body ng-app="streamaApp" ng-cloak>
 
+
+	<header class="main" ng-if="!isCurrentState('player')">
+		<a class="logo" ui-sref="dash">
+			<img src="/images/logo.png" alt="Streama"/>
+		</a>
+
+		<ul class="navigation" ng-if="currentUser">
+			<li><a ui-sref="dash">Dashboard</a></li>
+			<li ng-if="currentUser"><a ui-sref="admin.shows">Manage Content</a></li>
+			<li ng-if="currentUser"><a ui-sref="admin.users">Admin</a></li>
+			<li><a ui-sref="profile">Profile</a></li>
+			<li><a ng-click="logout()">Logout</a></li>
+		</ul>
+	</header>
+
+
 		<ui-view></ui-view>
 
 		<!--TEMPLATES-->

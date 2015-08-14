@@ -12,6 +12,17 @@ streamaApp.factory('apiService', ['$http', '$resource', function ($http, $resour
 			return $http.post(urlBase + 'user/login', data);
 		},
 
+		session: {
+			login: function (data) {
+				return $http.post(urlBase + 'session/login', data);
+			},
+			logout: function () {
+				return $http.get(urlBase + 'session/logout');
+			},
+			currentUser: function () {
+				return $http.get(urlBase + 'session/currentUser');
+			}
+		},
 
 		tvShow: {
 			get: function (id) {
