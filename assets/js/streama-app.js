@@ -36,11 +36,13 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			template: JST['assets/templates/profile.html'],
 			controller: 'profileCtrl',
 			resolve: {
-				currentUser: ['apiService', '$rootScope', function (apiService, $rootScope) {
+				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
 					return apiService.session.currentUser().success(function (data) {
 						if (data) {
 							$rootScope.currentUser = data;
 							return data;
+						}else{
+							$state.go('login');
 						}
 					});
 				}]
