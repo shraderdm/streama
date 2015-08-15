@@ -9,7 +9,11 @@ var _ = require('lodash');
 var getApiKey = function() {
 	var deferred = Q.defer();
 	Settings.findOne({settingsKey: 'TheMovieDB API key'}, function (err, setting) {
-		deferred.resolve(setting || 'e1584c7cc0072947d4776de6df7b8822');
+		if(err){
+			deferred.reject(err);
+		}else{
+			deferred.resolve(setting);
+		}
 	});
 	return deferred.promise;
 };
@@ -18,15 +22,26 @@ var getApiKey = function() {
 module.exports = {
 
 	search: function(type, name){
+		var deferred = Q.defer();
 		var query = encodeURIComponent(name);
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + '/search/' + type + '?query=' + query + '&api_key=' + apiKey, function (error, response, data) {
-				if (!error && response.statusCode == 200) {
-					console.log(JSON.parse(data));
+				var data = JSON.parse(data);
+
+				if(error){
+					deferred.reject(error);
+					return;
 				}
+
+				if(data.status_code == 7){
+					deferred.reject(data.status_message);
+					return;
+				}
+				deferred.resolve(data);
 			});
 		});
 
+		return deferred.promise;
 	},
 
 	validateApiKey: function(apiKey){
@@ -34,6 +49,8 @@ module.exports = {
 			if (!error && response.statusCode == 200) {
 				console.log(JSON.parse(data));
 			}
+
+
 		});
 	},
 
@@ -64,18 +81,30 @@ module.exports = {
 		var deferred = Q.defer();
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + "/genre/movie/list?api_key=" + apiKey, function (error, response, data) {
-				if (!error && response.statusCode == 200) {
+				var data = JSON.parse(data);
 
-					var genres = JSON.parse(data).genres;
-
-					_.forEach(genres, function (genre) {
-						genre.apiId = genre.id;
-						genre.id = null;
-					});
-
-					deferred.resolve(genres);
+				if(error){
+					deferred.reject(error);
+					return;
 				}
+
+				if(data.status_code == 7){
+					deferred.reject(data.status_message);
+					return;
+				}
+
+				var genres = data.genres;
+
+				_.forEach(genres, function (genre) {
+					genre.apiId = genre.id;
+					genre.id = null;
+				});
+
+				deferred.resolve(genres);
+
 			});
+		}, function (err) {
+			deferred.reject(err);
 		});
 		return deferred.promise;
 	},
@@ -85,30 +114,54 @@ module.exports = {
 		var deferred = Q.defer();
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + "/genre/tv/list?api_key=" + apiKey, function (error, response, data) {
-				if (!error && response.statusCode == 200) {
+				var data = JSON.parse(data);
 
-					var genres = JSON.parse(data).genres;
-
-					_.forEach(genres, function (genre) {
-						genre.apiId = genre.id;
-						genre.id = null;
-					});
-
-					deferred.resolve(genres);
+				if(error){
+					deferred.reject(error);
+					return;
 				}
+
+				if(data.status_code == 7){
+					deferred.reject(data.status_message);
+					return;
+				}
+
+				var genres = data.genres;
+
+				_.forEach(genres, function (genre) {
+					genre.apiId = genre.id;
+					genre.id = null;
+				});
+
+				deferred.resolve(genres);
+
 			});
+		}, function (err) {
+			deferred.reject(err);
 		});
 		return deferred.promise;
 	},
 
 
 	seasonForShow: function(apiId, season){
+		var deferred = Q.defer();
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + '/tv/' + apiId + '/season/' + season + '?api_key=' + apiKey, function (error, response, data) {
-				if (!error && response.statusCode == 200) {
-					console.log(JSON.parse(data).episodes);
+
+				var data = JSON.parse(data);
+
+				if(error){
+					deferred.reject(error);
+					return;
 				}
+
+				if(data.status_code == 7){
+					deferred.reject(data.status_message);
+					return;
+				}
+				deferred.resolve(data.episodes);
 			});
 		});
+		return deferred.promise;
 	}
 };

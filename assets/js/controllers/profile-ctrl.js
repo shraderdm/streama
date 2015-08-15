@@ -10,6 +10,9 @@ streamaApp.controller('profileCtrl', ['$scope', 'apiService', '$rootScope', func
   apiService.theMovieDb.availableGenres().success(function (data) {
     $scope.availableGenres = data;
     $scope.loading = false;
+  }).error(function (err) {
+    $scope.loading = false;
+    alertify.error(err);
   });
 
   $scope.toggleSelectGenre = function (genre) {
