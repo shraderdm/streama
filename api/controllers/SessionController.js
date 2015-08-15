@@ -35,7 +35,7 @@ module.exports = {
 				// If the password from the form params doesn't checkout w/ the encrypted
 				// password from the database...
 				incorrect: function (){
-					return res.notFound();
+					return res.notFound("Email or Password is incorrect.");
 				},
 
 				success: function (){
