@@ -51,7 +51,6 @@ module.exports.policies = {
 
 
   user: {
-    save: true,
     '*': "is-admin"
   },
   settings: {'*': "is-admin"}
