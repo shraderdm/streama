@@ -4,7 +4,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 	return{
 		tvShowModal: function (tvShow, callback) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modal--tvShow.htmll',
+				template: JST['assets/templates/modal--tvShow.html'],
 				controller: 'modalTvShowCtrl',
 				size: 'lg',
 				resolve: {
@@ -22,7 +22,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 
 		movieModal: function (movie, callback) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modal--movie.html',
+				template: JST['assets/templates/modal--movie.html'],
 				controller: 'modalMovieCtrl',
 				size: 'lg',
 				resolve: {
@@ -40,7 +40,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 
 		videoModal: function (video, isManual, tvShow, callback) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modal--video.html',
+				template: JST['assets/templates/modal--video.html'],
 				controller: 'modalVideoCtrl',
 				size: 'lg',
 				resolve: {
@@ -65,7 +65,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 
 		openFileBrowser: function (callback) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modal--file-browser.html',
+				template: JST['assets/templates/modal--file-browser.html'],
 				controller: 'modalFileBrowserCtrl',
 				size: 'lg'
 			});
@@ -78,7 +78,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 
 		userModal: function (user, callback) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modal--user.html',
+				template: JST['assets/templates/modal--user.html'],
 				controller: 'modalUserCtrl',
 				size: 'lg',
 				resolve: {
@@ -95,7 +95,7 @@ streamaApp.factory('modalService', ['$modal', function ($modal) {
 
     fileManagerModal: function (video, callback) {
       var modalInstance = $modal.open({
-        templateUrl: 'modal--manage-files.html',
+				template: JST['assets/templates/modal--manage-files.html'],
         controller: 'modalFileCtrl',
         size: 'lg',
         backdrop: 'static',
