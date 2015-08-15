@@ -70,7 +70,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
 					return apiService.session.currentUser().success(function (data) {
-						if (data && data.authorities.length) {
+						if (data && (data.isAdmin || data.isContentManager)) {
 							$rootScope.currentUser = data;
 							return data;
 						} else {
@@ -114,7 +114,7 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 			resolve: {
 				currentUser: ['apiService', '$rootScope', '$state', function (apiService, $rootScope, $state) {
 					return apiService.session.currentUser().success(function (data) {
-						if (data.isAdmin) {
+						if (data && data.isAdmin) {
 							$rootScope.currentUser = data;
 							return data;
 						} else {
@@ -157,6 +157,13 @@ streamaApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', func
 				return response || $q.when(response);
 			},
 			responseError: function (response) {
+
+				if(response.status == 401){
+					location.href = $('base').attr('href');
+				}
+				//else if(response.status == 403){
+				//	alertify.error('You do not have the rights to carry out this action.');
+				//}
 
 				if(response.status == 403){
 					alertify.error('You do not have the rights to carry out this action.');
