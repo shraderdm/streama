@@ -8,14 +8,19 @@
 module.exports = {
 
 	search: function (req, res) {
-		var type = req.params.apiId || 'tv';
-		var name = req.params.season || 'Firefly';
+		var type = req.param('type');
+		var name = req.param('name');
+
+		if(!type || !name){
+			res.badRequest("The parameters 'type' and 'name' are required.");
+		}
+
 		TheMovieDbService.search(type, name).then(function (data) {
-			res.json(data);
+			console.log(data);
+			res.json(data.results);
 		}, function (err) {
 			res.badRequest(err);
 		});
-		res.send('ok');
 	},
 
 	seasonForShow: function (req, res) {

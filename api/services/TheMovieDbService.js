@@ -12,7 +12,7 @@ var getApiKey = function() {
 		if(err){
 			deferred.reject(err);
 		}else{
-			deferred.resolve(setting);
+			deferred.resolve(setting.value);
 		}
 	});
 	return deferred.promise;
@@ -27,7 +27,6 @@ module.exports = {
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + '/search/' + type + '?query=' + query + '&api_key=' + apiKey, function (error, response, data) {
 				var data = JSON.parse(data);
-
 				if(error){
 					deferred.reject(error);
 					return;
