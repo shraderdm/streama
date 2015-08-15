@@ -53,11 +53,11 @@ streamaApp.factory('apiService', ['$http', '$resource', function ($http, $resour
 			list: function () {
 				return $http.get(urlBase + 'user');
 			},
-			checkAvailability: function (username) {
-				return $http.get(urlBase + 'user/checkAvailability', {params: {username: username}});
+			checkAvailability: function (email) {
+				return $http.get(urlBase + 'user/checkAvailability', {params: {email: email}});
 			},
 			saveAndInviteUser: function (user) {
-				return $http.post(urlBase + 'user/saveAndInviteUser', user);
+				return $http.post(urlBase + 'user/save', user);
 			},
       saveProfile: function (user) {
 				return $http.post(urlBase + 'user/saveProfile', user);

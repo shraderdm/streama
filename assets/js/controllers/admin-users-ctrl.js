@@ -11,18 +11,22 @@ streamaApp.controller('adminUsersCtrl', ['$scope', 'apiService', 'modalService',
 
 	$scope.openUserModal = function (user) {
 		modalService.userModal(user, function (data) {
+			console.log('%c data', 'color: deeppink; font-weight: bold; text-shadow: 0 0 5px deeppink;', data);
 			if(!_.find($scope.users, {id: data.id})){
 				$scope.users.push(data);
 			}else{
 
         var index = $scope.users.indexOf(user);
-        $scope.users[index] = data;
 
-        if(data.id != $rootScope.currentUser.id){
-          alertify.alert('If you made any changes to the roles, please make sure to inform the user that he has to log out of the application and log back in for the changes to take effect.');
-        }else{
-          alertify.alert('If you made any changes to the roles, please log out of the application and log back in for the changes to take effect.');
-        }
+				if(user.isAdmin != data.isAdmin || user.isContentManager != data.isContentManager){
+					if(data.id != $rootScope.currentUser.id){
+						alertify.alert('Because you changed this users permissions, lease make sure to inform them that they have to log out of the application and log back in for the changes to take effect.');
+					}else{
+						alertify.alert('Because you changed your permissions, please log out of the application and log back in for the changes to take effect.');
+					}
+				}
+
+				$scope.users[index] = data;
       }
 		});
 	};

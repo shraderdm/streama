@@ -17,13 +17,14 @@
     <td>dateCreated</td>
     <td>enabled</td>
     <td>invitation link</td>
-    <td>roles</td>
+    <td>Admin</td>
+    <td>Content Manager</td>
     <td></td>
   </tr>
   </thead>
   <tr ng-repeat="user in users">
-    <td>{{user.username}}</td>
-    <td>{{user.dateCreated | date:'short'}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.createdAt | date:'short'}}</td>
     <td>
       <i class="ion-checkmark color-success" ng-show="user.enabled"></i>
       <i class="ion-close color-danger" ng-show="!user.enabled"></i>
@@ -33,7 +34,14 @@
       <input ng-if="user.invitationLink" class="form-control input-xs" type="text" ng-model="user.invitationLink"/>
     </td>
 
-    <td> <span class="comma-separatad" ng-repeat="role in user.authorities">{{role.displayName}}</span></td>
+    <td>
+      <i class="ion-checkmark color-success" ng-show="user.isAdmin"></i>
+      <i class="ion-close color-danger" ng-show="!user.isAdmin"></i>
+    </td>
+    <td>
+      <i class="ion-checkmark color-success" ng-show="user.isContentManager"></i>
+      <i class="ion-close color-danger" ng-show="!user.isContentManager"></i>
+    </td>
 
     <td style="width: 110px;">
       <button class="btn btn-xs btn-primary" ng-click="openUserModal(user)">edit</button>

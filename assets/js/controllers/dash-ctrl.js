@@ -17,7 +17,7 @@ streamaApp.controller('dashCtrl', ['$scope', 'apiService', '$state', '$rootScope
     apiService.settings.list().success(function (data) {
       var TheMovieDbAPI = _.find(data, {settingsKey: 'TheMovieDB API key'});
 
-      if(!TheMovieDbAPI.value){
+      if(!TheMovieDbAPI || !TheMovieDbAPI.value){
         alertify.alert('You need to fill out some required base-settings. You will be redirected to the settings page now.', function () {
           $state.go('admin.settings');
         });
