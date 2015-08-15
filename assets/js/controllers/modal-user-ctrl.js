@@ -7,20 +7,16 @@ streamaApp.controller('modalUserCtrl', [
 		$scope.user = angular.copy(user);
 		$scope.loading = false;
 
-		apiService.user.availableRoles().success(function (data) {
-      $scope.roles = data;
-    });
-
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};
 
-		$scope.checkAvailability = function (username) {
+		$scope.checkAvailability = function (email) {
 			$scope.error = null;
 			$scope.valid = false;
 
-			if(username){
-				apiService.user.checkAvailability(username).success(function (data) {
+			if(email){
+				apiService.user.checkAvailability(email).success(function (data) {
 					if(data.error){
 						$scope.error = 	data.error;
 					}else{

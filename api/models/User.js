@@ -5,12 +5,13 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var Passwords = require('machinepack-passwords');
+
 module.exports = {
 
   attributes: {
     name: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
     email: {
       type: 'email',
@@ -44,10 +45,38 @@ module.exports = {
       collection: 'genre',
       via: 'users'
     },
-    roles: {
-      collection: 'role',
-      via: 'users'
+    isAdmin: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+    isContentManager: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.encryptedPassword;
+      return obj;
     }
+  },
+
+
+
+  beforeValidate: function(values, cb) {
+    Passwords.encryptPassword({
+      password: values.password
+    })
+      .exec({
+        error: function (err){
+          cb(err);
+        },
+
+        success: function (encryptedPassword){
+          values.encryptedPassword = encryptedPassword;
+          cb();
+        }
+    });
   }
 };
 

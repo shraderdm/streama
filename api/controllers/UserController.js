@@ -7,33 +7,27 @@
 
 module.exports = {
 	save: function (req, res) {
-		var Passwords = require('machinepack-passwords');
+		if(req.body.id){
+			UserService.updateExistingUser(req.body).then(function (data) {
+				res.json(data);
+			});
+		}else{
+			UserService.createNewUserAndInvite(req.body).then(function (data) {
+				res.json(data);
+			});
+		}
+	},
 
-		// Encrypt a string using the BCrypt algorithm.
-		Passwords.encryptPassword({
-			password: req.param('password'),
-		}).exec({
-
-			error: function (err){
-				return res.negotiate(err);
-			},
-
-			success: function (encryptedPassword){
-				User.create({
-					name: req.param('name'),
-					email: req.param('email'),
-					encryptedPassword: encryptedPassword,
-					lastLoggedIn: new Date()
-				}, function userCreated(err, newUser) {
-					if(err){
-						return res.negotiate(err);
-					}
-
-					return res.json(newUser);
-				})
+	checkAvailability: function (req, res) {
+		var email = req.param('email');
+		User.findOne({email: email}, function (err, user) {
+			if(user && user.id != req.session.User.id){
+				return res.json({error: "Email address is already taken by another user."});
+			}else{
+				return res.send();
 			}
 		});
-
 	}
+
 };
 
