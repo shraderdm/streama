@@ -9,11 +9,11 @@ first, create a Database called "streama-node"
 
 then:
 ```
-	git clone https://github.com/dularion/streama.git
-	cd streama
-	git fetch
-	git checkout streama-master
-	npm install && bower install
-	sails lift
+git clone https://github.com/dularion/streama.git
+cd streama
+git fetch
+git checkout streama-node
+npm install && bower install
+sails lift
 ```
 
