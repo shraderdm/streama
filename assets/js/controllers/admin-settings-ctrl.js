@@ -4,17 +4,18 @@ streamaApp.controller('adminSettingsCtrl', ['$scope', 'apiService', '$sce', func
 
   apiService.settings.list().success(function (data) {
     $scope.settings = data;
-
-    _.forEach(data, function (setting) {
-      setting.description = $sce.trustAsHtml(Autolinker.link(setting.description, { newWindow: "true" } ));
-    });
     $scope.loading = false;
   });
 
+  $scope.autoLinkDescription = function (description) {
+    return $sce.trustAsHtml(Autolinker.link(description, { newWindow: "true" } ));
+  };
+
   $scope.updateMultipleSettings = function (settings) {
     settings.invalid = false;
+    var rawSettings = angular.copy(settings);
 
-    apiService.settings.updateMultiple(settings)
+    apiService.settings.updateMultiple(rawSettings)
       .success(function () {
         window.location.reload();
       })
@@ -32,7 +33,7 @@ streamaApp.controller('adminSettingsCtrl', ['$scope', 'apiService', '$sce', func
         $scope.loading = false;
       })
       .error(function (data) {
-        alertify.error(data.message);
+        alertify.error(data);
         settings.invalid = true;
         $scope.loading = false;
       });

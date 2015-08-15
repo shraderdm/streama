@@ -45,13 +45,27 @@ module.exports = {
 	},
 
 	validateApiKey: function(apiKey){
+		var deferred = Q.defer();
+
 		request(BASE_URL + '/configuration?api_key=' + apiKey, function (error, response, data) {
-			if (!error && response.statusCode == 200) {
-				console.log(JSON.parse(data));
+			var data = JSON.parse(data);
+
+			if(error){
+				deferred.reject(error);
+				return;
 			}
 
+			if(data.status_code == 7){
+				deferred.reject(data.status_message);
+				return;
+			}
 
+			if (!error && response.statusCode == 200) {
+				deferred.resolve(data);
+			}
 		});
+
+		return deferred.promise;
 	},
 
 
