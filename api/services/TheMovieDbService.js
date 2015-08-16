@@ -69,13 +69,24 @@ module.exports = {
 
 
 	getExternalLinks: function(showId){
+		var deferred = Q.defer();
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + "/tv/"+showId+"/external_ids?api_key=" + apiKey, function (error, response, data) {
-				if (!error && response.statusCode == 200) {
-					console.log(JSON.parse(data));
+				var data = JSON.parse(data);
+				if(error){
+					deferred.reject(error);
+					return;
 				}
+
+				if(data.status_code == 7){
+					deferred.reject(data.status_message);
+					return;
+				}
+
+				deferred.resolve(data);
 			});
 		});
+		return deferred.promise;
 	},
 
 
@@ -83,7 +94,7 @@ module.exports = {
 		getApiKey().then(function (apiKey) {
 			request(BASE_URL + "/movie/"+movieId+"?api_key=" + apiKey, function (error, response, data) {
 				if (!error && response.statusCode == 200) {
-					console.log(JSON.parse(data));
+					//console.log(JSON.parse(data));
 				}
 			});
 		});

@@ -16,7 +16,7 @@ module.exports = {
 		}
 
 		TheMovieDbService.search(type, name).then(function (data) {
-			console.log(data);
+			//console.log(data);
 			res.json(data.results);
 		}, function (err) {
 			res.badRequest(err);
@@ -24,11 +24,27 @@ module.exports = {
 	},
 
 	seasonForShow: function (req, res) {
-		var apiId = req.params.apiId || 1396;
-		var season = req.params.season || 1;
+		var apiId = req.param('apiId');
+		var season = req.param('season');
+		var showId = req.param('showId');
+		var result = [];
+
 		TheMovieDbService.seasonForShow(apiId, season)
-			.then(function (data) {
-				res.json(data);
+			.then(function (episodes) {
+
+				_.forEach(episodes, function (episodeData, index) {
+					episodeData.videoType = "tvShow";
+					episodeData.show = showId;
+
+					Video.create(episodeData).exec(function (err, episode) {
+						result.push(episode);
+
+						if(index+1 == episodes.length){
+							res.json(result);
+						}
+					});
+				});
+
 			}, function (err) {
 				res.badRequest(err);
 			});

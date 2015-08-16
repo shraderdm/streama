@@ -26,7 +26,7 @@ streamaApp.factory('apiService', ['$http', '$resource', function ($http, $resour
 
 		tvShow: {
 			get: function (id) {
-				return $http.get(urlBase + 'tvShow/show', {params: {id: id}});
+				return $http.get(urlBase + 'tvShow/'+ id);
 			},
 			save: function (data) {
 				return $http.post(urlBase + 'tvShow/save', data);
@@ -99,7 +99,7 @@ streamaApp.factory('apiService', ['$http', '$resource', function ($http, $resour
 
 		episode: {
 			get: function (id) {
-				return $http.get(urlBase + 'episode/show', {params: {id: id}});
+				return $http.get(urlBase + 'episode/' + id);
 			},
 			save: function (data) {
 				return $http.post(urlBase + 'episode/save', data);
@@ -108,7 +108,7 @@ streamaApp.factory('apiService', ['$http', '$resource', function ($http, $resour
 				return $http.delete(urlBase + 'episode/delete', {params: {id: id}});
 			},
 			list: function (params) {
-				return $http.get(urlBase + 'episode', {params: params});
+				return $http.get(urlBase + 'episode/listForShow', {params: params});
 			}
 		},
 

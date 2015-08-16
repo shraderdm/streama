@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var Video = require('./Video.js');
 
-module.exports = _.extend({
+module.exports = {
 
   attributes: {
     deleted: {
@@ -17,42 +17,20 @@ module.exports = _.extend({
       minLength: 1,
       maxLength: 5000
     },
-    apiId: {
-      type: 'string',
-      columnName: 'api_id'
-    },
-    backdropPath: {
-      type: 'string',
-      columnName: 'backdrop_path'
-    },
-    posterPath: {
-      type: 'string',
-      columnName: 'poster_path'
-    },
-    firstAirDate: {
-      type: 'string',
-      columnName: 'first_air_date'
-    },
-    originalLanguage: {
-      type: 'string',
-      columnName: 'original_language'
-    },
-    imdbId: {
-      type: 'string',
-      columnName: 'imdb_id'
-    },
-    voteAverage: {
-      type: 'float'
-    },
-    voteCount: {
-      type: 'integer'
-    },
-    popularity: {
-      type: 'float'
-    },
+    apiId: 'string',
+
+    backdrop_path: 'string',
+    poster_path: 'string',
+    first_air_date: 'string',
+    original_language: 'string',
+    imdb_id: 'string',
+    vote_average: 'float',
+    vote_count: 'integer',
+    popularity: 'float',
+
     episodes: {
-      collection: 'episode',
+      collection: 'Video',
       via: 'show'
     }
   }
-}, Video);
+};
