@@ -17,3 +17,9 @@ npm install && bower install
 sails lift
 ```
 
+#### Login
+```
+email: admin@localhost.com
+pass: admin
+```
+
