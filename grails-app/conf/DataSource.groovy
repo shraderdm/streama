@@ -41,7 +41,7 @@ environments {
           dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 
           //DEV
-          url = "jdbc:mysql://streama:3306/streama"
+          url = "jdbc:mysql://mysql:3306/streama"
           username = "streama"
           password = "fake-streama-password"
 
