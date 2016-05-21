@@ -31,7 +31,7 @@ environments {
           //DEV
           url = "jdbc:mysql://mysql:3306/streama"
           username = "streama"
-          password = "fake-streama-password"
+          password = "fakestreamapassword"
         }
     }
     production {
@@ -43,7 +43,7 @@ environments {
           //DEV
           url = "jdbc:mysql://mysql:3306/streama"
           username = "streama"
-          password = "fake-streama-password"
+          password = "fakestreamapassword"
 
             properties {
                // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
