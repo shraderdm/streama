@@ -29,9 +29,9 @@ environments {
           dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 
           //DEV
-          url = "jdbc:mysql://localhost:3306/streama"
-          username = "root"
-          password = ""
+          url = "jdbc:mysql://mysql:3306/streama"
+          username = "streama"
+          password = "fake-streama-password"
         }
     }
     production {
@@ -41,9 +41,9 @@ environments {
           dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 
           //DEV
-          url = "jdbc:mysql://localhost:3306/streama"
-          username = "root"
-          password = ""
+          url = "jdbc:mysql://streama:3306/streama"
+          username = "streama"
+          password = "fake-streama-password"
 
             properties {
                // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
@@ -83,7 +83,7 @@ environments {
             String user = System.getenv('MYSQL_USER')
             if(!user) user = "streama"
             String pass = System.getenv('MYSQL_PASSWORD')
-            if(!pass) pass = "streama"
+            if(!pass) pass = "fake-streama-password"
             url = "jdbc:mysql://$host:$port/$db"
             username = "$user"
             password = "$pass"
